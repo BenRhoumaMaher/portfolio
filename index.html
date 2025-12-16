@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maher Benrhouma - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #111827;
+            --bg-card: #1F2937;
+            --text-main: #F9FAFB;
+            --text-muted: #9CA3AF;
+            --accent-start: #3B82F6;
+            --accent-end: #8B5CF6;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent-start);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Language Toggle */
+        .lang-switch {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover,
+        .lang-btn.active {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent-start);
+            border-color: var(--accent-start);
+        }
+
+        /* Gradient Text Utility */
+        .text-gradient {
+            background: linear-gradient(to right, var(--accent-start), var(--accent-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            background: linear-gradient(to right, var(--accent-start), var(--accent-end));
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--accent-start);
+            color: var(--accent-start);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+            color: white;
+        }
+
+        #skills {
+            margin-top: 40px;
+        }
+
+        .btn-outline:hover {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent-start);
+        }
+
+        /* Header / Hero */
+        header {
+            padding: 80px 0;
+            /* Consistent spacing */
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--bg-card);
+            margin-bottom: 25px;
+            /* Margin below image */
+            margin-top: 40px;
+            /* Added margin above image as requested */
+            background-color: var(--bg-card);
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #education {
+            margin-top: 40px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 0;
+            /* Consistent spacing */
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        /* Cards Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            /* Slightly wider min-width */
+            gap: 30px;
+        }
+
+        #experience {
+            margin-top: 40px;
+        }
+
+        .card {
+            background-color: transparent;
+            padding: 30px;
+            border-radius: 12px;
+            transition: transform 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Background Layer */
+        .card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            background-color: var(--bg-card);
+            z-index: -1;
+        }
+
+        /* Glow Layer */
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: -5px;
+            border-radius: 16px;
+            background: linear-gradient(45deg, var(--accent-start), var(--accent-end));
+            z-index: -2;
+            filter: blur(20px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card:hover::before {
+            opacity: 0.6;
+        }
+
+        /* New Card Layout Structure */
+        .card-header {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .card-date {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            margin-top: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .card-type {
+            font-size: 0.95rem;
+            color: var(--accent-start);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .separator {
+            border: 0;
+            height: 1px;
+            background: var(--border-color);
+            margin: 15px 0;
+            width: 100%;
+        }
+
+        .card-body {
+            flex-grow: 1;
+            /* Pushes tools to bottom */
+        }
+
+        .card-body ul {
+            list-style-type: none;
+        }
+
+        .card-body li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+            color: #D1D5DB;
+            font-size: 0.95rem;
+        }
+
+        .card-body li::before {
+            content: "•";
+            color: var(--accent-start);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+
+        .card-tools {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 5px;
+        }
+
+        .tool-badge {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: rgba(0, 0, 0, 0.2);
+            padding: 3px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Skills */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .skill-tag {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #60A5FA;
+            padding: 8px 16px;
+            border-radius: 9999px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        /* Contact */
+        .contact-methods {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.25rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card-header {
+                flex-direction: column;
+            }
+
+            .card-date {
+                margin-left: 0;
+                margin-top: 5px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 250px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container" style="position: relative;">
+        <div class="lang-switch">
+            <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
+            <button class="lang-btn" onclick="setLanguage('fr')">FR</button>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="container">
+        <img src="profile.png" alt="Maher Benrhouma" class="hero-img">
+        <h1 class="hero-title">
+            <span class="lang-en">Hello, I'm</span>
+            <span class="lang-fr hidden">Bonjour, Je suis</span>
+            <span class="text-gradient">Maher Benrhouma</span>
+        </h1>
+        <div class="hero-subtitle">
+            <span class="lang-en">
+                Software Engineer specialized in PHP, Symfony, React.js.
+                Making the web work better, one line of code at a time.
+            </span>
+            <span class="lang-fr hidden">
+                Ingénieur En Génie Informatique spécialisé en PHP, Symfony, React.js.
+                Rendre le web meilleur, une ligne de code à la fois.
+            </span>
+        </div>
+        <div class="hero-buttons">
+            <a href="#contact" class="btn">
+                <span class="lang-en">Get in Touch</span>
+                <span class="lang-fr hidden">Contactez-moi</span>
+            </a>
+            <a href="CV_Maher_Ben_Rhouma.pdf" download id="download-cv" class="btn btn-outline">
+                <span class="lang-en">Download CV</span>
+                <span class="lang-fr hidden">Télécharger CV</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- Experience Section -->
+    <section id="experience" class="container">
+        <h2 class="section-title">
+            <span class="lang-en">Professional Experience</span>
+            <span class="lang-fr hidden">Expérience Professionnelle</span>
+        </h2>
+        <div class="grid">
+            <!-- Experience 1 -->
+            <article class="card">
+                <div class="card-header">
+                    <h3 class="card-title">YooScriptDigitalSolution</h3>
+                    <span class="card-date">
+                        <span class="lang-en">Feb 2025 - June 2025</span>
+                        <span class="lang-fr hidden">Février 2025 - Juin 2025</span>
+                    </span>
+                </div>
+                <div class="card-type">
+                    <span class="lang-en">Final Year Project - MS-LEARNING</span>
+                    <span class="lang-fr hidden">Stage PFE - Projet: MS-LEARNING</span>
+                </div>
+
+                <hr class="separator">
+
+                <div class="card-body">
+                    <ul class="lang-en">
+                        <li>Developed a RESTful API for course and user management using Symfony.</li>
+                        <li>Implemented secure authentication with JWT.</li>
+                        <li>Designed dynamic UI with React.js.</li>
+                        <li>Set up DevOps (Docker, CI/CD, ELK) for automation.</li>
+                        <li>Integrated Stripe payment solution.</li>
+                    </ul>
+                    <ul class="lang-fr hidden">
+                        <li>Développé une API RESTful pour la gestion des cours et utilisateurs.</li>
+                        <li>Implémenté un système d’authentification sécurisé avec JWT.</li>
+                        <li>Conçu et réalisé l'interface utilisateur en React.js.</li>
+                        <li>Mis en place infrastructure DevOps (Docker, CI/CD, ELK).</li>
+                        <li>Ajouté la solution de paiement Stripe.</li>
+                    </ul>
+                </div>
+
+                <hr class="separator">
+
+                <div class="card-tools">
+                    <span class="tool-badge">Symfony</span>
+                    <span class="tool-badge">React.js</span>
+                    <span class="tool-badge">Docker</span>
+                    <span class="tool-badge">CI/CD</span>
+                    <span class="tool-badge">ELK</span>
+                    <span class="tool-badge">JWT</span>
+                    <span class="tool-badge">Stripe</span>
+                </div>
+            </article>
+
+            <!-- Experience 2 -->
+            <article class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Advanced Training</h3>
+                    <span class="card-date">
+                        <span class="lang-en">July 2024 - Aug 2024</span>
+                        <span class="lang-fr hidden">Juillet 2024 - Août 2024</span>
+                    </span>
+                </div>
+                <div class="card-type">
+                    <span class="lang-en">Summer Internship - E-Commerce</span>
+                    <span class="lang-fr hidden">Stage d’été - Projet: E-COMMERCE</span>
+                </div>
+
+                <hr class="separator">
+
+                <div class="card-body">
+                    <ul class="lang-en">
+                        <li>Developed a complete e-commerce solution (catalog, cart).</li>
+                        <li>Built a robust back-office for admin.</li>
+                        <li>Implemented client auth and Stripe payments.</li>
+                        <li>Constructed interfaces with Twig, Bootstrap.</li>
+                    </ul>
+                    <ul class="lang-fr hidden">
+                        <li>Développé une solution e-commerce complète.</li>
+                        <li>Conçu un back-office robuste pour la gestion produits.</li>
+                        <li>Implémenté un système d’authentification client.</li>
+                        <li>Intégré la solution de paiement Stripe.</li>
+                    </ul>
+                </div>
+
+                <hr class="separator">
+
+                <div class="card-tools">
+                    <span class="tool-badge">Twig</span>
+                    <span class="tool-badge">Bootstrap</span>
+                    <span class="tool-badge">HTML/CSS</span>
+                    <span class="tool-badge">Stripe</span>
+                </div>
+            </article>
+
+            <!-- Experience 3 -->
+            <article class="card">
+                <div class="card-header">
+                    <h3 class="card-title">BNS ENGINEERING</h3>
+                    <span class="card-date">
+                        <span class="lang-en">Feb 2022 - June 2022</span>
+                        <span class="lang-fr hidden">Février 2022 - Juin 2022</span>
+                    </span>
+                </div>
+                <div class="card-type">
+                    <span class="lang-en">Licence Internship - Training Center</span>
+                    <span class="lang-fr hidden">Stage Pfe Licence - Training Center</span>
+                </div>
+
+                <hr class="separator">
+
+                <div class="card-body">
+                    <ul class="lang-en">
+                        <li>Developed a training management platform.</li>
+                        <li>Created a WordPress back-office.</li>
+                        <li>Programmed logic with PHP/MySQL.</li>
+                        <li>Built public and private interfaces.</li>
+                    </ul>
+                    <ul class="lang-fr hidden">
+                        <li>Conçu et développé une plateforme de gestion de formations.</li>
+                        <li>Développé un back-office sous WordPress.</li>
+                        <li>Programmé la logique avec PHP/MySQL.</li>
+                        <li>Créé des interfaces publiques et privées.</li>
+                    </ul>
+                </div>
+
+                <hr class="separator">
+
+                <div class="card-tools">
+                    <span class="tool-badge">PHP</span>
+                    <span class="tool-badge">MySQL</span>
+                    <span class="tool-badge">WordPress</span>
+                    <span class="tool-badge">HTML/CSS</span>
+                    <span class="tool-badge">JS</span>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="container">
+        <h2 class="section-title">
+            <span class="lang-en">Technical Skills</span>
+            <span class="lang-fr hidden">Compétences Techniques</span>
+        </h2>
+        <div class="skills-container">
+            <span class="skill-tag">PHP</span>
+            <span class="skill-tag">Symfony</span>
+            <span class="skill-tag">Java</span>
+            <span class="skill-tag">JavaScript</span>
+            <span class="skill-tag">React.js</span>
+            <span class="skill-tag">HTML5</span>
+            <span class="skill-tag">CSS3</span>
+            <span class="skill-tag">Twig</span>
+            <span class="skill-tag">Docker</span>
+            <span class="skill-tag">CI/CD</span>
+            <span class="skill-tag">Git/GitHub</span>
+            <span class="skill-tag">MySQL</span>
+            <span class="skill-tag">ELK Stack</span>
+            <span class="skill-tag">Scrum</span>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="container">
+        <h2 class="section-title">
+            <span class="lang-en">Education & Certifications</span>
+            <span class="lang-fr hidden">Éducation & Certifications</span>
+        </h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">
+                        <span class="lang-en">Education</span>
+                        <span class="lang-fr hidden">Éducation</span>
+                    </h3>
+                </div>
+
+                <hr class="separator">
+
+                <div class="card-body">
+                    <div style="margin-bottom: 20px;">
+                        <div style="color: white; font-weight: 600;">
+                            <span class="lang-en">Higher School of Engineering and Technological Studies - Tunis</span>
+                            <span class="lang-fr hidden">École Supérieure d'Ingénieurs - Tunis</span>
+                        </div>
+                        <div style="color: var(--text-muted); font-size: 0.9rem;">
+                            <span class="lang-en">National Engineering Diploma in Computer Science</span>
+                            <span class="lang-fr hidden">Diplôme National D’ingénieur En Génie Informatique</span>
+                        </div>
+                        <div style="color: var(--accent-start); font-size: 0.85rem; margin-top: 4px;">
+                            <span class="lang-en">Graduating June 2025</span>
+                            <span class="lang-fr hidden">Diplômé en Juin 2025</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="color: white; font-weight: 600;">
+                            <span class="lang-en">Higher Institute of Technological Studies - Kelibia</span>
+                            <span class="lang-fr hidden">ISET Kélibia</span>
+                        </div>
+                        <div style="color: var(--text-muted); font-size: 0.9rem;">
+                            <span class="lang-en">License Degree in IT Technologies</span>
+                            <span class="lang-fr hidden">Diplôme De Licence En Technologies De L’informatique</span>
+                        </div>
+                        <div style="color: var(--accent-start); font-size: 0.85rem; margin-top: 4px;">
+                            <span class="lang-en">June 2022</span>
+                            <span class="lang-fr hidden">Diplômé en Juin 2022</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Certifications</h3>
+                </div>
+
+                <hr class="separator">
+
+                <ul class="card-body" style="padding-top: 0;">
+                    <li><a href="https://drive.google.com/file/d/1zXbfd-yLJO3tqMkYZMSL6C3rtSi357dR/view?usp=sharing"
+                            target="_blank">Top
+                            1% Symfony – WeLoveDevs</a></li>
+                    <li><a href="https://www.scrumstudy.com/certification/verify?type=SFC&number=1089303"
+                            target="_blank">Scrum
+                            Fundamentals Certified (SFC™)</a> </li>
+                    <li><a href="https://cert.efset.org/xRag8t" target="_blank">EFSET English Certificate 70/100 (C1
+                            Advanced)</a>
+                    </li>
+                    <li><a href="https://www.credly.com/badges/3ddf7946-22ef-40d7-9c3a-b02994b045d8/linked_in_profile"
+                            target="_blank">Certificate
+                            English for IT 1 (Cisco)</a> </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" style="background-color: var(--bg-card); margin-top: 40px;">
+        <div class="container" style="text-align: center;">
+            <h2 class="section-title">
+                <span class="lang-en">Let's Work Together</span>
+                <span class="lang-fr hidden">Travaillons Ensemble</span>
+            </h2>
+            <div class="contact-methods">
+                <div class="contact-item">
+                    <span>📧</span>
+                    <a href="mailto:maherbenrhoumaaa@gmail.com">maherbenrhoumaaa@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <span>📱</span>
+                    <a href="tel:+21626652736">+216 26 652 736</a>
+                </div>
+                <div class="contact-item" style="margin-top: 20px; gap: 20px;">
+                    <a href="https://www.linkedin.com/in/maherbenrhouma" target="_blank" class="btn"
+                        style="background: #0077b5;" target="_blank">LinkedIn</a>
+                    <a href="https://github.com/BenRhoumaMaher" target="_blank" class="btn" style="background: #333;"
+                        target="_blank">GitHub</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Maher Benrhouma. <span class="lang-en">All rights reserved.</span><span
+                    class="lang-fr hidden">Tous droits réservés.</span></p>
+        </div>
+    </footer>
+
+    <script>
+        const downloadBtn = document.getElementById('download-cv');
+        const langBtns = document.querySelectorAll('.lang-btn');
+        let currentLang = 'en';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+
+            // Toggle Content
+            document.querySelectorAll(`.lang-en`).forEach(el => {
+                if (lang === 'en') el.classList.remove('hidden');
+                else el.classList.add('hidden');
+            });
+
+            document.querySelectorAll(`.lang-fr`).forEach(el => {
+                if (lang === 'fr') el.classList.remove('hidden');
+                else el.classList.add('hidden');
+            });
+
+            // Update Download Button
+            downloadBtn.href = lang === 'en' ? 'CV_Maher_Ben_Rhouma' : 'CV_Ben_Rhouma_Maher.pdf';
+
+            // Update Toggle Buttons
+            langBtns.forEach(btn => {
+                if (btn.textContent.toLowerCase() === lang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
