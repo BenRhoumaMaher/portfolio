@@ -59,6 +59,10 @@
             z-index: 100;
         }
 
+        #projects {
+            margin-top: 40px;
+        }
+
         .lang-btn {
             background: transparent;
             border: 1px solid var(--border-color);
@@ -80,6 +84,7 @@
         /* Gradient Text Utility */
         .text-gradient {
             background: linear-gradient(to right, var(--accent-start), var(--accent-end));
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -108,6 +113,10 @@
             color: white;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         #skills {
             margin-top: 40px;
         }
@@ -115,6 +124,33 @@
         .btn-outline:hover {
             background: rgba(59, 130, 246, 0.1);
             color: var(--accent-start);
+        }
+
+        /* Back to Top Button */
+        #back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            /* Hidden by default via class, displayed as flex when active */
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+        }
+
+        #back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
         }
 
         /* Header / Hero */
@@ -328,6 +364,20 @@
             font-size: 0.9rem;
             font-weight: 500;
             border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(0px);
+            /* Initial state for transition */
+        }
+
+        .skill-tag:hover {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+            color: white;
+            cursor: default;
         }
 
         /* Contact */
@@ -383,6 +433,122 @@
                 width: 100%;
                 max-width: 250px;
                 text-align: center;
+            }
+        }
+
+        /* Projects Section specific styles */
+        .project-card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .project-card:hover {
+            border-color: var(--accent-start);
+            transform: translateY(-5px);
+        }
+
+        .project-card.expanded {
+            grid-column: 1 / -1;
+            cursor: default;
+            transform: none;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--accent-start), var(--accent-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .project-gallery {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .project-card.expanded .project-gallery {
+            display: grid;
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: zoom-in;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-img:hover {
+            border-color: var(--accent-start);
+            transform: scale(1.05);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            /* Solid black to ensure it is fully 'in front' */
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            /* High Z-Index */
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            /* Always allow clicks to pass through to avoid flicker loop with hover */
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+            /* pointer-events remains none to prevent blocking the hover target */
+        }
+
+        .modal-img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active .modal-img {
+            transform: scale(1);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
     </style>
@@ -589,6 +755,65 @@
         </div>
     </section>
 
+    <!-- Projects Section -->
+    <section id="projects" class="container">
+        <h2 class="section-title">
+            <span class="lang-en">Projects</span>
+            <span class="lang-fr hidden">Projets</span>
+        </h2>
+        <div class="grid" id="projects-grid">
+            <!-- Projects will be injected here via JS if dynamic, or hardcoded structure -->
+            <!-- Using hardcoded structure for stability with JS enhancement -->
+
+            <!-- Brnsmart -->
+            <div class="project-card" onclick="toggleProject(event, this, 'brnsmart')">
+                <div class="project-header">
+                    <h3 class="project-title">Brnsmart</h3>
+                    <span class="btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">
+                        <span class="lang-en">View Gallery</span>
+                        <span class="lang-fr hidden">Voir la Gallerie</span>
+                    </span>
+                </div>
+                <div class="project-gallery" id="gallery-brnsmart">
+                    <!-- Images injected via JS -->
+                </div>
+            </div>
+
+            <!-- E-Commerce -->
+            <div class="project-card" onclick="toggleProject(event, this, 'ecommerce')">
+                <div class="project-header">
+                    <h3 class="project-title">E-Commerce</h3>
+                    <span class="btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">
+                        <span class="lang-en">View Gallery</span>
+                        <span class="lang-fr hidden">Voir la Gallerie</span>
+                    </span>
+                </div>
+                <div class="project-gallery" id="gallery-ecommerce">
+                    <!-- Images injected via JS -->
+                </div>
+            </div>
+
+            <!-- MS-Learning -->
+            <div class="project-card" onclick="toggleProject(event, this, 'mslearning')">
+                <div class="project-header">
+                    <h3 class="project-title">MS-Learning</h3>
+                    <span class="btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">
+                        <span class="lang-en">View Gallery</span>
+                        <span class="lang-fr hidden">Voir la Gallerie</span>
+                    </span>
+                </div>
+                <div class="project-gallery" id="gallery-mslearning">
+                    <!-- Images injected via JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div class="modal" id="image-modal">
+        <img src="" alt="Project Zoom" class="modal-img" id="modal-img">
+    </div>
+
     <!-- Education Section -->
     <section id="education" class="container">
         <h2 class="section-title">
@@ -696,10 +921,34 @@
         </div>
     </footer>
 
+    <!-- Back to Top Button -->
+    <button id="back-to-top" class="btn" aria-label="Back to Top">
+        ↑
+    </button>
+
     <script>
         const downloadBtn = document.getElementById('download-cv');
         const langBtns = document.querySelectorAll('.lang-btn');
         let currentLang = 'en';
+
+        // Back to Top Logic
+        const backToTopBtn = document.getElementById('back-to-top');
+        const experienceSection = document.getElementById('experience');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > experienceSection.offsetTop) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
 
         function setLanguage(lang) {
             currentLang = lang;
@@ -727,6 +976,103 @@
                 }
             });
         }
+
+        // Projects Data
+        const projectImages = {
+            brnsmart: [
+                'assets/brnsmart/aaw.jpg',
+                'assets/brnsmart/cc.jpg',
+                'assets/brnsmart/cdcd.jpg',
+                'assets/brnsmart/dc.jpg',
+                'assets/brnsmart/ed.jpg',
+                'assets/brnsmart/idid.jpg',
+                'assets/brnsmart/ieie.jpg',
+                'assets/brnsmart/ii.jpg',
+                'assets/brnsmart/ii.png',
+                'assets/brnsmart/iioo.jpg',
+                'assets/brnsmart/ncncn.jpg',
+                'assets/brnsmart/ozoz.jpg',
+                'assets/brnsmart/qw.jpg',
+                'assets/brnsmart/rf.jpg',
+                'assets/brnsmart/rfrf.jpg',
+                'assets/brnsmart/sx.jpg',
+                'assets/brnsmart/sxxs.jpg',
+                'assets/brnsmart/ueue.jpg',
+                'assets/brnsmart/ur.jpg',
+                'assets/brnsmart/uu.jpg',
+                'assets/brnsmart/àe.jpg'
+            ],
+            ecommerce: [
+                'assets/ecommerce/screenshot20251006123811.png',
+                'assets/ecommerce/screenshot20251006123911.png',
+                'assets/ecommerce/screenshot20251006125124.png',
+                'assets/ecommerce/screenshot20251006125224.png',
+                'assets/ecommerce/screenshot20251006125326.png',
+                'assets/ecommerce/screenshot20251006125355.png',
+                'assets/ecommerce/screenshot20251006125424.png',
+                'assets/ecommerce/screenshot20251006125445.png',
+                'assets/ecommerce/screenshot20251006125525.png',
+                'assets/ecommerce/screenshot20251006125551.png',
+                'assets/ecommerce/screenshot20251006125631.png',
+                'assets/ecommerce/screenshot20251006125659.png',
+                'assets/ecommerce/screenshot20251006125728.png',
+                'assets/ecommerce/screenshot20251006125822.png',
+                'assets/ecommerce/screenshot20251006125913.png'
+            ],
+            mslearning: [
+                "assets/mslearning/addcontenttocourses.png", "assets/mslearning/addcoursereview.png", "assets/mslearning/addinterests.png", "assets/mslearning/approveinstructordemandeemail.png", "assets/mslearning/becomeinstructorhero.png", "assets/mslearning/becomeinswhyteachwithus.png", "assets/mslearning/becominshowtobecome.png", "assets/mslearning/catalogcourses.png", "assets/mslearning/chatbotconversation.png", "assets/mslearning/check workflows on every push and pull request.png", "assets/mslearning/comparequizresults.png", "assets/mslearning/confirmconnectwithgmail.png", "assets/mslearning/connectwithgmailselectaccount.png", "assets/mslearning/coursecataloghero.png", "assets/mslearning/coursedetails.png", "assets/mslearning/deletecourse.png", "assets/mslearning/deletecourseiot.png", "assets/mslearning/editcourse.png", "assets/mslearning/editpostmodal.png", "assets/mslearning/elasticsearch.png", "assets/mslearning/emptyfieldssignup.png", "assets/mslearning/footer.png", "assets/mslearning/forgotpassword.png", "assets/mslearning/forumpost.png", "assets/mslearning/forums.png", "assets/mslearning/freecourses.png", "assets/mslearning/freshdrops.png", "assets/mslearning/generatelessonsubtitles.png", "assets/mslearning/github project.png", "assets/mslearning/homeConnectArea.png", "assets/mslearning/homeCoursesSection.png", "assets/mslearning/homefaq.png", "assets/mslearning/homefeatures.png", "assets/mslearning/homehero.png", "assets/mslearning/hometestimonial.png", "assets/mslearning/instructor forumposts.png", "assets/mslearning/instructoraccountsettingsoverview.png", "assets/mslearning/instructoraccountsettingspassword.png", "assets/mslearning/instructoraccountsettingsprofile.png", "assets/mslearning/instructorcalendar.png", "assets/mslearning/instructorcreatecourse.png", "assets/mslearning/instructordashboard.png", "assets/mslearning/instructordemands.png", "assets/mslearning/instructorfaq.png", "assets/mslearning/instructoriotfeedbacksentimentals.png", "assets/mslearning/instructoriotoverview.png", "assets/mslearning/instructoriotstudentmanagement.png", "assets/mslearning/instructornavbar.png", "assets/mslearning/instructorprofile.png", "assets/mslearning/instructorpublic.png", "assets/mslearning/invalidmailpasswordnotmatch.png", "assets/mslearning/joinform.png", "assets/mslearning/justforyou.png", "assets/mslearning/lessonplayer.png", "assets/mslearning/lessonsummary.png", "assets/mslearning/lessontranscript.png", "assets/mslearning/LiveCourseCatalog.png", "assets/mslearning/login.png", "assets/mslearning/meetmasters.png", "assets/mslearning/messages.png", "assets/mslearning/messagesinterface.png", "assets/mslearning/msconnecthome.png", "assets/mslearning/mslearninglogs.png", "assets/mslearning/newusermail.png", "assets/mslearning/notifications.png", "assets/mslearning/notownercannteditdeletepost.png", "assets/mslearning/passthequiz.png", "assets/mslearning/pendingchatbotmessage.png", "assets/mslearning/postcommentreply.png", "assets/mslearning/postupdated.png", "assets/mslearning/project structure github.png", "assets/mslearning/quiz results.png", "assets/mslearning/quizpage.png", "assets/mslearning/QuizPerformanceStatistics.png", "assets/mslearning/resendpassword.png", "assets/mslearning/resetpasswordmail.png", "assets/mslearning/reviewscoursessentimentals.png", "assets/mslearning/reviewspostsfrequentterms.png", "assets/mslearning/sdf.png", "assets/mslearning/search.png", "assets/mslearning/senddemande.png", "assets/mslearning/signup.png", "assets/mslearning/strangerprofilenoforumnoactivitysections.png", "assets/mslearning/stripepaymentcourse.png", "assets/mslearning/studentaccountsettings.png", "assets/mslearning/studentcalendar.png", "assets/mslearning/studentdashboard.png", "assets/mslearning/studentenrolledcourses.png", "assets/mslearning/studenternrolledcourses.png", "assets/mslearning/studentnavbar.png", "assets/mslearning/studentorifukeactivity.png", "assets/mslearning/studentpayment.png", "assets/mslearning/studentpaymentpurchaseplan.png", "assets/mslearning/studentprofilefriends.png", "assets/mslearning/studentprofilesection.png", "assets/mslearning/studentregisteredcourse.png", "assets/mslearning/studentupdatepassword.png", "assets/mslearning/switchlanguage.png", "assets/mslearning/takequiz.png", "assets/mslearning/testsendresetpassword.png", "assets/mslearning/TopLessonsbyViews.png", "assets/mslearning/translatemessage.png", "assets/mslearning/translatinglessonvideo.png", "assets/mslearning/trendingpicks.png", "assets/mslearning/updateprofile.png", "assets/mslearning/VideoEngagementMetrics.png", "assets/mslearning/VideoSegmentinteractions.png", "assets/mslearning/workflow quality.png", "assets/mslearning/workflow security.png", "assets/mslearning/workflow tests.png", "assets/mslearning/workflows.png", "assets/mslearning/wrongcredentials.png"
+            ]
+        };
+
+        // Initialize Galleries
+        function initProjects() {
+            Object.keys(projectImages).forEach(key => {
+                const gallery = document.getElementById(`gallery-${key}`);
+                if (!gallery) return;
+
+                projectImages[key].forEach(imgSrc => {
+                    const img = document.createElement('img');
+                    img.src = imgSrc;
+                    img.className = 'gallery-img';
+                    img.loading = 'lazy';
+
+                    // Hover Event for Modal
+                    img.addEventListener('mouseenter', () => showModal(imgSrc));
+                    img.addEventListener('mouseleave', hideModal);
+
+                    gallery.appendChild(img);
+                });
+            });
+        }
+
+        // Toggle Project Card Expansion
+        function toggleProject(event, card, projectId) {
+            // If clicking on the grid but not on an image (event bubbling), toggle expansion
+            if (event.target.tagName === 'IMG') return;
+
+            // Close other cards
+            document.querySelectorAll('.project-card').forEach(c => {
+                if (c !== card) c.classList.remove('expanded');
+            });
+
+            card.classList.toggle('expanded');
+        }
+
+        // Modal Logic
+        const modal = document.getElementById('image-modal');
+        const modalImg = document.getElementById('modal-img');
+
+        function showModal(src) {
+            modalImg.src = src;
+            modal.classList.add('active');
+        }
+
+        function hideModal() {
+            modal.classList.remove('active');
+        }
+
+        // Initialize on load
+        initProjects();
     </script>
 </body>
 
