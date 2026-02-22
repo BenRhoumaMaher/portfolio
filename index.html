@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -262,6 +263,29 @@
 
         .card:hover {
             transform: translateY(-5px);
+        }
+
+        .card.full-width {
+            grid-column: 1 / -1;
+            justify-self: center;
+            /* Centers the item within its grid space without stretching */
+            width: 100%;
+            max-width: 400px;
+            /* Limits the width to roughly the size of other cards */
+            align-items: center;
+            /* Centers items horizontally */
+            text-align: center;
+            /* Centers text inside elements */
+        }
+
+        .card.full-width .card-header {
+            align-items: center;
+            /* Overrides the flex-start of regular cards */
+        }
+
+        .card.full-width .card-tools {
+            justify-content: center;
+            /* Centers tools flex container */
         }
 
         .card:hover::before {
@@ -601,6 +625,39 @@
             <span class="lang-fr hidden">Expérience Professionnelle</span>
         </h2>
         <div class="grid">
+            <!-- Experience ATLARGE -->
+            <article class="card full-width">
+                <div class="card-header">
+                    <h3 class="card-title">ATLARGE</h3>
+                    <span class="card-date">
+                        <span class="lang-en">Feb 2026 - Present</span>
+                        <span class="lang-fr hidden">Février 2026 - Présent</span>
+                    </span>
+                </div>
+                <div class="card-type">
+                    <span class="lang-en">Fullstack Engineer</span>
+                    <span class="lang-fr hidden">Ingénieur Fullstack</span>
+                </div>
+
+                <hr class="separator">
+
+                <div class="card-body">
+                </div>
+
+                <hr class="separator">
+
+                <div class="card-tools">
+                    <span class="tool-badge">PHP</span>
+                    <span class="tool-badge">Symfony</span>
+                    <span class="tool-badge">Drupal</span>
+                    <span class="tool-badge">Elasticsearch</span>
+                    <span class="tool-badge">WordPress</span>
+                    <span class="tool-badge">React.js</span>
+                    <span class="tool-badge">Docker</span>
+                    <span class="tool-badge">GitLab</span>
+                </div>
+            </article>
+
             <!-- Experience 1 -->
             <article class="card">
                 <div class="card-header">
@@ -753,6 +810,12 @@
             <span class="skill-tag">MySQL</span>
             <span class="skill-tag">ELK Stack</span>
             <span class="skill-tag">Scrum</span>
+            <span class="skill-tag">Drupal</span>
+            <span class="skill-tag">WordPress</span>
+            <span class="skill-tag">GitLab</span>
+            <span class="skill-tag">Redis</span>
+            <span class="skill-tag">AWS</span>
+            <span class="skill-tag">Lando</span>
         </div>
     </section>
 
@@ -917,8 +980,10 @@
 
     <footer>
         <div class="container">
-            <p>&copy; <script>document.write(new Date().getFullYear())</script> Maher Benrhouma. <span class="lang-en">All rights reserved.</span><span
-                    class="lang-fr hidden">Tous droits réservés.</span></p>
+            <p>&copy;
+                <script>document.write(new Date().getFullYear())</script> Maher Benrhouma. <span class="lang-en">All
+                    rights reserved.</span><span class="lang-fr hidden">Tous droits réservés.</span>
+            </p>
         </div>
     </footer>
 
